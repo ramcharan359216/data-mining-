@@ -1,0 +1,33 @@
+import pandas as pd
+
+# Step 1: Load Dataset
+data = pd.read_csv("market_sales.csv")
+
+# Step 2: Display first 5 rows
+print("Dataset Preview:")
+print(data.head())
+
+# Step 3: Check Missing Values
+print("\nMissing Values in Dataset:")
+print(data.isnull().sum())
+
+# Step 4: Fill Missing Values
+# For numeric columns → fill with mean
+data['total_sales'] = data['total_sales'].fillna(data['total_sales'].mean())
+data['profit'] = data['profit'].fillna(data['profit'].mean())
+
+# For categorical columns → fill with most frequent value
+data['product_category'] = data['product_category'].fillna(data['product_category'].mode()[0])
+data['region'] = data['region'].fillna(data['region'].mode()[0])
+
+# Step 5: Remove Duplicate Records
+data = data.drop_duplicates()
+
+# Step 6: Check dataset after cleaning
+print("\nDataset after cleaning:")
+print(data.info())
+
+# Step 7: Save Cleaned Dataset
+data.to_csv("clean_market_sales.csv", index=False)
+
+print("\nData cleaning completed successfully!")
